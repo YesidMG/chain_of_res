@@ -21,5 +21,6 @@ class PersonaService:
         if not self.personas:
             print("No hay personas registradas.")
             return
+        print("\n--- Lista de Personas ---")
         for p in self.personas:
-            print(f"{p.cc} - {p.nombre}")
+            print(f"- CC:{p.cc} / {p.nombre}")
