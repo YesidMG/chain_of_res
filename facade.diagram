@@ -1,0 +1,54 @@
+@startuml
+class Persona {
+  - cc: str
+  - nombre: str
+  - telefono: str
+  - correo: str
+  - direccion: str
+}
+
+class PersonaService {
+  - personas: List[Persona]
+  + registrar_persona(cc: str, nombre: str, telefono: str, correo: str, direccion: str): None
+  + existe_cc(cc: str): bool
+  + buscar_por_cc(cc: str): Optional[Persona]
+  + listar_personas(): None
+}
+
+class Evento {
+  - id: str
+  - nombre: str
+  - direccion: str
+  - fecha: datetime
+  - duenio: Persona
+}
+
+class EventoService {
+  - eventos: List[Evento]
+  + registrar_evento(id: str, nombre: str, direccion: str, fecha: datetime, duenio: Persona): None
+  + listar_eventos(): None
+  + buscar_por_id(id: str): Optional[Evento]
+}
+
+class ValidationFacade {
+  + validate_cc(cc: str, existing_ccs: List[str], errors: List[str]): None
+  + validate_nombre(nombre: str, errors: List[str]): None
+  + validate_correo(correo: str, errors: List[str]): None
+}
+
+class Main {
+  + registrar_persona()
+  + listar_personas()
+  + buscar_persona()
+  + registrar_evento()
+  + listar_eventos()
+  + buscar_evento()
+}
+
+Main --> PersonaService
+Main --> EventoService
+Main --> ValidationFacade
+PersonaService --> Persona
+EventoService --> Evento
+Evento o-- Persona : duenio
+@enduml

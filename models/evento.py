@@ -9,10 +9,10 @@ class Evento:
 
         self.nombre = nombre
         self.direccion = direccion
-        self.fecha = fecha  # Esperamos datetime
-        self.duenio = duenio  # Persona dueña del evento
+        self.fecha = fecha  
+        self.duenio = duenio 
         self.descripcion = descripcion
-        self.personal = []  # Lista de PersonalEvento
+        self.personal = [] 
 
     def agregar_personal(self, personal_evento):
         self.personal.append(personal_evento)
