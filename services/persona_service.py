@@ -7,7 +7,6 @@ class PersonaService:
     def registrar_persona(self, cc, nombre, telefono, correo, direccion):
         persona = Persona(cc, nombre, telefono, correo, direccion)
         self.personas.append(persona)
-        print("Persona registrada exitosamente.")
 
     def existe_cc(self, cc):
         return any(p.cc == cc for p in self.personas)

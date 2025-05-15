@@ -1,31 +1,44 @@
 from services.persona_service import PersonaService
 from services.evento_service import EventoService
-from validators.validator_chain import crear_cadena_validacion
+from validators.validator_chain import (
+    crear_cadena_validacion_cc,
+    crear_cadena_validacion_nombre,
+    crear_cadena_validacion_correo
+)
 from datetime import datetime
 
 def registrar_persona(persona_service):
-    print("\n--- Registrar Persona ---")
+    existing_ccs = [p.cc for p in persona_service.personas]
+
+    # Crear validadores independientes
+    validador_cc = crear_cadena_validacion_cc(existing_ccs)  # Validador para la cédula
+    validador_nombre = crear_cadena_validacion_nombre()  # Validador para el nombre
+    validador_correo = crear_cadena_validacion_correo()  # Validador para el correo
+
     cc = input("Cédula: ").strip()
     nombre = input("Nombre: ").strip()
     telefono = input("Teléfono: ").strip()
     correo = input("Correo: ").strip()
     direccion = input("Dirección: ").strip()
 
-    existing_ccs = {p.cc for p in persona_service.personas}
-    cadena_validacion = crear_cadena_validacion(existing_ccs)
+    # Lista para acumular errores
+    errors = []
 
-    if not cadena_validacion.validate(cc):
-        return
-    if not cadena_validacion.validate(nombre):
-        return
-    if not cadena_validacion.validate(correo):
-        return
+    # Validar cada campo de forma independiente
+    validador_cc.validate(cc, errors)  # Valida la cédula
+    validador_nombre.validate(nombre, errors)  # Valida el nombre
+    validador_correo.validate(correo, errors)  # Valida el correo
 
-    if persona_service.existe_cc(cc):
-        print("Error: Ya existe una persona con esa cédula.")
-        return
-
-    persona_service.registrar_persona(cc, nombre, telefono, correo, direccion)
+    if errors:
+        print("\nSe encontraron los siguientes errores:")
+        # Eliminar duplicados en la lista de errores
+        errores_unicos = list(set(errors))
+        for error in errores_unicos:
+            print(f"- {error}")
+    else:
+        # Registrar la persona y mostrar el mensaje de éxito
+        persona_service.registrar_persona(cc, nombre, telefono, correo, direccion)
+        print("Persona registrada exitosamente.")
 
 def listar_personas(persona_service):
     print("\n--- Lista de Personas ---")

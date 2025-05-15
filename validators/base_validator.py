@@ -6,13 +6,13 @@ class Validator(ABC):
 
     def set_next(self, validator):
         self._next_validator = validator
-        return validator  # Para encadenar fácilmente
+        return validator  # Permite encadenar validadores
 
     @abstractmethod
-    def validate(self, value):
+    def validate(self, value, errors):
         pass
 
-    def next(self, value):
+    def next(self, value, errors):
         if self._next_validator:
-            return self._next_validator.validate(value)
-        return True
+            return self._next_validator.validate(value, errors)
+        return errors

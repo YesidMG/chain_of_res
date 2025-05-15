@@ -5,11 +5,9 @@ class CCValidator(Validator):
         super().__init__()
         self.existing_ccs = existing_ccs
 
-    def validate(self, cc):
+    def validate(self, cc, errors):
         if not cc.isdigit():
-            print("Error: La cédula debe contener solo números positivos.")
-            return False
+            errors.append("Error: La cédula debe contener solo números positivos.")
         if cc in self.existing_ccs:
-            print("Error: La cédula ya está registrada.")
-            return False
-        return self.next(cc)
+            errors.append("Error: La cédula ya está registrada.")
+        return self.next(cc, errors)

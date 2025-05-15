@@ -2,11 +2,14 @@ from validators.cc_validator import CCValidator
 from validators.correo_validator import CorreoValidator
 from validators.nombre_validator import NombreValidator
 
-def crear_cadena_validacion(existing_ccs):
-    cc_validator = CCValidator(existing_ccs)
-    nombre_validator = NombreValidator()
-    correo_validator = CorreoValidator()
+def crear_cadena_validacion_cc(existing_ccs):
+    # Cadena de validación para la cédula
+    return CCValidator(existing_ccs)
 
-    # Enlazamos: CC -> Nombre -> Correo
-    cc_validator.set_next(nombre_validator).set_next(correo_validator)
-    return cc_validator
+def crear_cadena_validacion_nombre():
+    # Cadena de validación para el nombre
+    return NombreValidator()
+
+def crear_cadena_validacion_correo():
+    # Cadena de validación para el correo
+    return CorreoValidator()
